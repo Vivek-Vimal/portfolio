@@ -8,9 +8,13 @@ import {
   styled,
   IconButton,
   Tooltip,
+  Link,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
-import { Code, Terminal, CorporateFare } from "@mui/icons-material";
+import { Code, Terminal } from "@mui/icons-material";
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 
 // Cyberpunk animations
 const neonPulse = keyframes`
@@ -141,6 +145,8 @@ const TerminalWindow = styled(Box)({
 });
 
 const ExperienceTimeline = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [activeOrg, setActiveOrg] = useState<number | null>(null);
   const [terminalOutput, setTerminalOutput] = useState<string[]>([]);
   const [showTerminal, setShowTerminal] = useState(false);
@@ -288,20 +294,23 @@ const ExperienceTimeline = () => {
       >
         <Box sx={{ flex: 1 }}>
           <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
-            <CorporateFare sx={{ color: "#00ffff", mr: 1 }} />
+            <Link href="/dashboard" style={{ textDecoration: "none" }}>
+            <KeyboardBackspaceIcon sx={{ color: '#00f0ff', display: isMobile ? 'none' : 'block', mr: 1 }}/>
+          </Link>
             <Typography
               variant="h5"
               sx={{
                 fontFamily: "'Courier New', monospace",
                 color: "#00ffff",
                 textShadow: "0 0 5px #00ffff",
-                borderLeft: "3px solid #00ffff",
+               // borderLeft: "3px solid #00ffff",
                 paddingLeft: "1rem",
                 flex: 1,
               }}
             >
               ORGANIZATIONAL AFFILIATIONS
             </Typography>
+
             <Tooltip title="Terminal Mode">
               <IconButton
                 onClick={() => setShowTerminal(!showTerminal)}

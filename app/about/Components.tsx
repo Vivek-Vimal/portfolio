@@ -5,6 +5,7 @@ import {
   useTheme,
   useMediaQuery,
   Divider,
+  Link,
 } from "@mui/material";
 import {
   motion,
@@ -14,6 +15,7 @@ import {
 } from "framer-motion";
 import { Code, Terminal, DataArray, DeveloperMode } from "@mui/icons-material";
 //import { useRouter } from "next/navigation";
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 
 // Cyberpunk-inspired color scheme
 const cyberColors = {
@@ -274,17 +276,17 @@ const FuturisticAboutMeEnhanced = () => {
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               fontSize: isMobile ? "1.8rem" : "2.5rem",
-              "&::after": {
-                content: '""',
-                position: "absolute",
-                bottom: -8,
-                left: "50%",
-                transform: "translateX(-50%)",
-                width: "50%",
-                height: "3px",
-                background: "linear-gradient(90deg, #6a1b9a, #00f0ff)",
-                borderRadius: "2px",
-              },
+              // "&::after": {
+              //   content: '""',
+              //   position: "absolute",
+              //   bottom: -8,
+              //   left: "50%",
+              //   transform: "translateX(-50%)",
+              //   width: "50%",
+              //   height: "3px",
+              //   background: "linear-gradient(90deg, #6a1b9a, #00f0ff)",
+              //   borderRadius: "2px",
+              // },
             }}
           >
             REACT/NEXT DEVELOPER
@@ -299,34 +301,53 @@ const FuturisticAboutMeEnhanced = () => {
           />
         </motion.div>
 
-        {/* Tab Navigation - Made responsive */}
         <Box
           sx={{
             display: "flex",
-            justifyContent: "center",
-            gap: isMobile ? 1 : 2,
+            justifyContent: "space-between",
+            // gap: isMobile ? 1 : 2,
+            // mb: isMobile ? 2 : 4,
+            // flexWrap: isSmallMobile ? "wrap" : "nowrap",
+            alignItems: "center",
             mb: isMobile ? 2 : 4,
-            flexWrap: isSmallMobile ? "wrap" : "nowrap",
           }}
-        >
-          <CyberButton
-            onClick={() => setActiveTab("bio")}
-            isMobile={isMobile}
-          >
-            Vivek Bio
-          </CyberButton>
-          <CyberButton
-            onClick={() => setActiveTab("skills")}
-            isMobile={isMobile}
-          >
-            Core Skills
-          </CyberButton>
-          <CyberButton
-            onClick={() => setActiveTab("stats")}
-            isMobile={isMobile}
-          >
-            {isSmallMobile ? "Stats" : "Performance Stats"}
-          </CyberButton>
+        >   
+
+          <Link href="/dashboard" style={{ textDecoration: "none" }}>
+            <KeyboardBackspaceIcon sx={{ color: '#00f0ff', display: isMobile ? 'none' : 'block', }}/>
+          </Link>
+
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              gap: isMobile ? 1 : 2,
+              flexWrap: isSmallMobile ? "wrap" : "nowrap",
+            }}
+          >       
+
+            <CyberButton
+              onClick={() => setActiveTab("bio")}
+              isMobile={isMobile}
+            >
+              <span style={{ color: activeTab === 'bio' ? '#00f0ff' : 'rgba(255,255,255,0.4)' }}>Vivek Bio</span>
+            </CyberButton>
+            <CyberButton
+              onClick={() => setActiveTab("skills")}
+              isMobile={isMobile}
+            >
+              <span style={{ color: activeTab === 'skills' ? '#00f0ff' : 'rgba(255,255,255,0.4)' }}>Core Skills</span>
+            </CyberButton>
+            <CyberButton
+              onClick={() => setActiveTab("stats")}
+              isMobile={isMobile}
+            >
+              <span style={{ color: activeTab === 'stats' ? '#00f0ff' : 'rgba(255,255,255,0.4)' }}>{isSmallMobile ? "Stats" : "Performance Stats"}</span>
+            </CyberButton>
+          </Box>
+
+          <Box/>
+
         </Box>
 
         {/* Tab Content */}
@@ -437,18 +458,18 @@ const FuturisticAboutMeEnhanced = () => {
                 }}
               >
                 {[
-                  "React.js",
+                  "React - js",
                   "TypeScript",
-                  "Next.js",
-                  "MUI",
-                  "Ant Design",
+                  "Next - js",
+                  "Material - UI",
+                  "Ant - Design",
                   "JavaScript",
-                  "Git",
-                  "GitHub",
-                  "Redux",
-                  "Context Api",
+                  "Git Platform",
+                  "Git - Hub",
+                  "Redux - Core",
+                  "Context - Api",
                   "Axios",
-                  "Rest Api",
+                  "Rest - Api",
                 ].map((skill, index) => (
                   <motion.div
                     key={skill}

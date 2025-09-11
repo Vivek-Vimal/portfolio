@@ -14,6 +14,8 @@ import {
   Tooltip,
   Avatar,
   Badge,
+  Link,
+  useMediaQuery,
 } from "@mui/material";
 import { motion, useAnimation } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
@@ -33,6 +35,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import React from "react";
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 
 // ========== 3D CONTACT ORB COMPONENT ========== //
 const ContactOrb = () => {
@@ -70,6 +73,7 @@ const ContactOrb = () => {
 // ========== MAIN COMPONENT ========== //
 const CyberContactPage = () => {
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -258,8 +262,23 @@ const CyberContactPage = () => {
         animate="visible"
         variants={containerVariants}
       >
-        {/* Animated Header */}
-        <Box textAlign="center" mb={6}>
+        <Box textAlign="center" >
+
+            <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      // gap: isMobile ? 1 : 2,
+                      // mb: isMobile ? 2 : 4,
+                      // flexWrap: isSmallMobile ? "wrap" : "nowrap",
+                      alignItems: "center",
+                      //mb: isMobile ? 2 : 4,
+                    }}
+                  >   
+
+          <Link href="/dashboard" style={{ textDecoration: "none" }}>
+            <KeyboardBackspaceIcon sx={{ color: '#00f0ff', display: isMobile ? 'none' : 'block', }}/>
+          </Link>
           <motion.div variants={itemVariants}>
             <Typography
               variant="h2"
@@ -277,6 +296,9 @@ const CyberContactPage = () => {
               INITIATE CONNECTION
             </Typography>
           </motion.div>
+          <Box />
+
+          </Box>
 
           <motion.div variants={itemVariants}>
             <Typography

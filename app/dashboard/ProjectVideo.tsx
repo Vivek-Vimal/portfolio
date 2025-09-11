@@ -115,7 +115,7 @@ const ProjectVideos = () => {
 
   return (
     <Container
-      sx={{ py: isMobile ? 2 : 4 }}
+      sx={{ py: isMobile ? 2 : 1}}
       ref={containerRef}
       component={motion.div}
       initial="hidden"

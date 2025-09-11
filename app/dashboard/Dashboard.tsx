@@ -3,9 +3,7 @@ import {
   Button,
   Container,
   Typography,
-  IconButton,
   Divider,
-  Tooltip,
 } from "@mui/material";
 import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import { NextPage } from "next";
@@ -13,8 +11,8 @@ import { useEffect, useState, useRef } from "react";
 import dynamic from "next/dynamic";
 import ProjectVideos from "./ProjectVideo";
 import { useRouter } from "next/navigation";
-import { Code, Terminal, DataArray, DeveloperMode } from "@mui/icons-material";
 import Company from "./Company";
+import Resume from '../resume/page'
 
 const DynamicCanvas = dynamic(() => import("./Canvas"), { ssr: false });
 
@@ -28,7 +26,7 @@ export const cyberColors = {
 };
 
 // Enhanced animations
-const containerVariants = {
+export const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -39,7 +37,7 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
+export const itemVariants = {
   hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
@@ -51,7 +49,7 @@ const itemVariants = {
   },
 };
 
-const floatingEffect = {
+export const floatingEffect = {
   animate: {
     y: [0, -15, 0],
     transition: {
@@ -103,14 +101,6 @@ const Home: NextPage = () => {
     controls.start("visible");
   }, [controls]);
 
-  // Tech icons with tooltips
-  const techIcons = [
-    { icon: <Code />, tooltip: "React/Next.js" },
-    { icon: <Terminal />, tooltip: "JavaScript" },
-    { icon: <DataArray />, tooltip: "Redux/Context" },
-    { icon: <DeveloperMode />, tooltip: "TypeScript" },
-  ];
-
   return (
     <Box
       sx={{
@@ -121,6 +111,9 @@ const Home: NextPage = () => {
         color: cyberColors.text,
         minHeight: "100vh",
         pt: "4rem",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       }}
       ref={containerRef}
     >
@@ -136,14 +129,16 @@ const Home: NextPage = () => {
           border: "1px solid rgba(0, 240, 255, 0.2)",
           boxShadow: "0 0 30px rgba(0, 240, 255, 0.1)",
           my: 4,
-          p: { xs: 2, md: 4 },
+          px: { xs: 2, md: 4 },
+          py: { xs: 3 },
           background: "rgba(15, 12, 41, 0.7)",
         }}
       >
         {/* Hero Section */}
         <Box
           textAlign="center"
-          py={10}
+          //pt={10}
+          py={2}
           component={motion.div}
           initial="hidden"
           animate={controls}
@@ -164,23 +159,7 @@ const Home: NextPage = () => {
             >
               Welcome to the Future
             </Typography>
-          </motion.div>
-
-          <motion.div variants={itemVariants}>
-            <Typography
-              variant="h5"
-              gutterBottom
-              sx={{
-                color: cyberColors.secondary,
-                mb: 4,
-                fontSize: { xs: "1.2rem", md: "1.5rem" },
-              }}
-            >
-              I craft immersive web experiences using cutting-edge technology.
-            </Typography>
-          </motion.div>
-
-          <motion.div
+             {/* <motion.div
             variants={itemVariants}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -189,7 +168,8 @@ const Home: NextPage = () => {
               variant="outlined"
               size="large"
               sx={{
-                mt: 2,
+                mt: 0,
+                mb: 2,
                 color: cyberColors.secondary,
                 borderColor: cyberColors.secondary,
                 "&:hover": {
@@ -202,46 +182,22 @@ const Home: NextPage = () => {
             >
               <span>Explore More</span>
             </Button>
+            </motion.div> */}
           </motion.div>
 
-          {/* Floating Tech Icons */}
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              mt: 6,
-              gap: 4,
-            }}
-            component={motion.div}
-            variants={containerVariants}
-          >
-            {techIcons.map((tech, index) => (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-                whileHover={{
-                  scale: 1.2,
-                  y: -10,
-                  transition: { duration: 0.3 },
-                }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <Tooltip title={tech.tooltip} arrow>
-                  <IconButton
-                    sx={{
-                      color: cyberColors.secondary,
-                      fontSize: "2.5rem",
-                      "&:hover": {
-                        color: cyberColors.accent,
-                      },
-                    }}
-                  >
-                    {tech.icon}
-                  </IconButton>
-                </Tooltip>
-              </motion.div>
-            ))}
-          </Box>
+          <motion.div variants={itemVariants}>
+            <Typography
+              variant="h5"
+              gutterBottom
+              sx={{
+                color: cyberColors.secondary,
+                mb: 2,
+                fontSize: { xs: "1.2rem", md: "1.5rem" },
+              }}
+            >
+              I craft immersive web experiences using cutting-edge technology.
+            </Typography>
+          </motion.div>
         </Box>
 
         {/* Content Navigation */}
@@ -257,7 +213,7 @@ const Home: NextPage = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
         >
-          {["projects", "companies", "contact"].map((tab) => (
+          {["projects", "companies", 'about me', "contact",'resume'].map((tab) => (
             <Button
               key={tab}
               variant="text"
@@ -289,7 +245,8 @@ const Home: NextPage = () => {
 
         <Divider
           sx={{
-            my: 2,
+            mt: '-1.85rem',
+            mb: 2,
             borderColor: "rgba(0, 240, 255, 0.3)",
             borderBottomWidth: "2px",
           }}
@@ -305,7 +262,7 @@ const Home: NextPage = () => {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <Box py={5}>
+              <Box py={2}>
                 <Typography
                   variant="h4"
                   textAlign="center"
@@ -313,7 +270,7 @@ const Home: NextPage = () => {
                   gutterBottom
                   sx={{
                     color: cyberColors.secondary,
-                    mb: 4,
+                    mb: 3,
                     textShadow: "0 0 10px rgba(0, 240, 255, 0.5)",
                   }}
                 >
@@ -331,7 +288,7 @@ const Home: NextPage = () => {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <Box py={5}>
+              <Box py={2}>
                 <Typography
                   variant="h4"
                   textAlign="center"
@@ -339,7 +296,7 @@ const Home: NextPage = () => {
                   gutterBottom
                   sx={{
                     color: cyberColors.secondary,
-                    mb: 4,
+                    mb: 2,
                     textShadow: "0 0 10px rgba(0, 240, 255, 0.5)",
                   }}
                 >
@@ -378,7 +335,6 @@ const Home: NextPage = () => {
               </Box>
             </motion.div>
           )}
-
           {activeTab === "contact" && (
             <motion.div
               key="contact"
@@ -436,12 +392,89 @@ const Home: NextPage = () => {
               </Box>
             </motion.div>
           )}
+          {activeTab === "about me" && (
+            <motion.div
+  key="about"
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  exit={{ opacity: 0, y: -20 }}
+  transition={{ duration: 0.3 }}
+>
+  <Box textAlign="center" py={5}>
+    <Typography
+      variant="h4"
+      fontWeight="bold"
+      gutterBottom
+      sx={{
+        color: cyberColors.secondary,
+        mb: 2,
+        textShadow: "0 0 10px rgba(0, 240, 255, 0.5)",
+      }}
+    >
+      Hi, I’m Vivek Vimal
+    </Typography>
+    <Typography
+      variant="h6"
+      sx={{
+        color: cyberColors.text,
+        mb: 4,
+      }}
+    >
+      A passionate <strong>React & Next.js Developer</strong> with 4+ years of
+      experience building modern, responsive, and dynamic web applications.  
+      I love crafting seamless user experiences, experimenting with animations,
+      and bringing ideas to life through code.
+    </Typography>
+
+
+    <motion.div
+      variants={floatingEffect}
+      animate="animate"
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+    >
+      <Button
+        variant="outlined"
+        size="large"
+        sx={{
+          mt: 4,
+          color: cyberColors.accent,
+          borderColor: cyberColors.accent,
+          "&:hover": {
+            borderColor: cyberColors.secondary,
+            color: cyberColors.secondary,
+            boxShadow: `0 0 15px ${cyberColors.secondary}`,
+          },
+        }}
+         onClick={() => router.push("/about")}
+      >
+        Lets Deep Dive
+      </Button>
+    </motion.div>
+  </Box>
+</motion.div>
+
+          )}
+          {activeTab === "resume" && (
+            <motion.div
+              key="skills"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Box py={2}>
+                <Resume />
+              </Box>
+            </motion.div>
+          )}
         </AnimatePresence>
 
         {/* Footer */}
         <Box
           textAlign="center"
-          py={4}
+          pb={2}
+          pt={1}
           component={motion.div}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
