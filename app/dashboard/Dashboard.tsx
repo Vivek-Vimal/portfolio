@@ -201,47 +201,56 @@ const Home: NextPage = () => {
         </Box>
 
         {/* Content Navigation */}
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            mb: 4,
-            gap: 2,
-          }}
-          component={motion.div}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8 }}
-        >
-          {["projects", "companies", 'about me', "contact",'resume'].map((tab) => (
-            <Button
-              key={tab}
-              variant="text"
-              sx={{
-                color: activeTab === tab ? cyberColors.secondary : "#ffffff",
-                textTransform: "uppercase",
-                letterSpacing: "1px",
-                position: "relative",
-                "&::after": {
-                  content: '""',
-                  position: "absolute",
-                  bottom: -4,
-                  left: 0,
-                  width: activeTab === tab ? "100%" : "0%",
-                  height: "2px",
-                  background: cyberColors.secondary,
-                  transition: "width 0.3s ease",
-                },
-                "&:hover::after": {
-                  width: "100%",
-                },
-              }}
-              onClick={() => setActiveTab(tab)}
-            >
-              {tab}
-            </Button>
-          ))}
-        </Box>
+      <Box
+  sx={{
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    mb: 4,
+    gap: 2,
+    flexWrap: "wrap", // allow wrapping
+  }}
+  component={motion.div}
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ delay: 0.8 }}
+>
+  {["projects", "companies", "about me", "contact", "resume"].map((tab) => (
+    <Button
+      key={tab}
+      variant="text"
+      sx={{
+        flexBasis: {
+          xs: "30%", // ~2 items per row on mobile
+          sm: "auto", // normal size on larger screens
+        },
+        flexGrow: { xs: 1, sm: 0 },
+        color: activeTab === tab ? cyberColors.secondary : "#ffffff",
+        textTransform: "uppercase",
+        letterSpacing: "1px",
+        position: "relative",
+        "&::after": {
+          content: '""',
+          position: "absolute",
+          bottom: -4,
+          left: 0,
+          width: activeTab === tab ? "100%" : "0%",
+          height: "2px",
+          background: cyberColors.secondary,
+          transition: "width 0.3s ease",
+        },
+        "&:hover::after": {
+          width: "100%",
+        },
+      }}
+      onClick={() => setActiveTab(tab)}
+    >
+      {tab}
+    </Button>
+  ))}
+</Box>
+
+
 
         <Divider
           sx={{

@@ -38,7 +38,7 @@ export default function PdfViewer() {
     >
       <Button
        component="a"
-            href="/ReactVivekResume.pdf"
+            href="/ReactVivekVimalResume.pdf"
             download
             aria-label="download"
         variant="outlined"
