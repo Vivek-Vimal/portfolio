@@ -11,68 +11,98 @@ import {
 import { styled } from "@mui/system";
 import { useRouter } from "next/navigation";
 
-// Cyberpunk-style 3D animation
+// Smoother 3D animation with eased transitions
 const rotate3D = keyframes`
   0% {
-    transform: rotateY(0deg) rotateX(15deg) rotateZ(5deg);
+    transform: rotateY(0deg) rotateX(10deg);
+    filter: hue-rotate(0deg);
   }
   33% {
-    transform: rotateY(120deg) rotateX(25deg) rotateZ(-5deg);
+    transform: rotateY(120deg) rotateX(15deg);
+    filter: hue-rotate(120deg);
   }
   66% {
-    transform: rotateY(240deg) rotateX(5deg) rotateZ(10deg);
+    transform: rotateY(240deg) rotateX(10deg);
+    filter: hue-rotate(240deg);
   }
   100% {
-    transform: rotateY(360deg) rotateX(15deg) rotateZ(5deg);
+    transform: rotateY(360deg) rotateX(10deg);
+    filter: hue-rotate(360deg);
   }
 `;
 
-// Dual-color neon pulse effect
+// Softer neon pulse with smoother transitions
 const neonPulse = keyframes`
   0%, 100% { 
     transform: scale(1); 
     opacity: 0.8; 
-    filter: drop-shadow(0 0 5px #00ffff);
+    filter: drop-shadow(0 0 8px currentColor) brightness(1);
   }
   50% { 
-    transform: scale(1.05); 
+    transform: scale(1.08); 
     opacity: 1; 
-    filter: drop-shadow(0 0 20px #ff00ff);
+    filter: drop-shadow(0 0 15px currentColor) brightness(1.2);
   }
 `;
 
-// Balanced glitch effect
+// Subtle glitch effect
 const glitch = keyframes`
-  0% {
-    text-shadow: 0.05em 0 0 #00fffc, -0.05em -0.025em 0 #ff00ff;
+  0%, 100% {
+    text-shadow: 
+      0.5px 0 0 rgba(0, 255, 255, 0.7),
+      -0.5px -0.25px 0 rgba(255, 0, 255, 0.7);
+    transform: translate(0);
   }
-  14% {
-    text-shadow: 0.05em 0 0 #00fffc, -0.05em -0.025em 0 #ff00ff;
-  }
-  15% {
-    text-shadow: -0.05em -0.025em 0 #00fffc, 0.025em 0.025em 0 #ff00ff;
-  }
-  49% {
-    text-shadow: -0.05em -0.025em 0 #00fffc, 0.025em 0.025em 0 #ff00ff;
+  25% {
+    text-shadow: 
+      -0.5px -0.25px 0 rgba(0, 255, 255, 0.7),
+      0.25px 0.25px 0 rgba(255, 0, 255, 0.7);
+    transform: translate(0.25px, -0.25px);
   }
   50% {
-    text-shadow: 0.025em 0.05em 0 #00fffc, 0.05em 0 0 #ff00ff, 0 -0.05em 0 #ff00ff;
+    text-shadow: 
+      0.25px 0.5px 0 rgba(0, 255, 255, 0.7),
+      0.5px 0 0 rgba(255, 0, 255, 0.7);
+    transform: translate(-0.25px, 0.25px);
   }
-  99% {
-    text-shadow: 0.025em 0.05em 0 #00fffc, 0.05em 0 0 #ff00ff, 0 -0.05em 0 #ff00ff;
-  }
-  100% {
-    text-shadow: -0.025em 0 0 #00fffc, -0.025em -0.025em 0 #ff00ff;
+  75% {
+    text-shadow: 
+      -0.25px 0 0 rgba(0, 255, 255, 0.7),
+      -0.25px -0.25px 0 rgba(255, 0, 255, 0.7);
+    transform: translate(0.25px, 0);
   }
 `;
 
-// Scanlines effect
+// Smoother scanlines
 const scanlines = keyframes`
-  from { background-position: 0 0; }
-  to { background-position: 0 10px; }
+  0% { background-position: 0 0; }
+  100% { background-position: 0 12px; }
 `;
 
-// Styled components with balanced color scheme
+// Gradient shimmer for connections
+const shimmer = keyframes`
+  0% { background-position: -200px 0; }
+  100% { background-position: 200px 0; }
+`;
+
+// Color palette
+const COLORS = {
+  cyan: "hsl(180, 100%, 50%)",
+  magenta: "hsl(300, 100%, 50%)",
+  blue: "hsl(210, 100%, 50%)",
+  pink: "hsl(330, 100%, 60%)",
+  neonBlue: "hsl(200, 100%, 50%)",
+  neonPink: "hsl(320, 100%, 50%)",
+};
+
+// Color transitions for smooth hue shifting
+const getSmoothHue = (baseHue: number, index: number, total: number, time: number) => {
+  const hueOffset = (index / total) * 120; // Spread across 120 degrees
+  const pulse = Math.sin(time * 0.5 + index * 0.1) * 20; // Subtle oscillation
+  return (baseHue + hueOffset + pulse) % 360;
+};
+
+// Styled components
 const CyberpunkContainer = styled(Box)(({ theme }) => ({
   position: "relative",
   width: "100%",
@@ -91,17 +121,18 @@ const CyberpunkContainer = styled(Box)(({ theme }) => ({
     right: 0,
     bottom: 0,
     background:
-      "linear-gradient(0deg, rgba(0,255,255,0.1) 1px, transparent 1px)",
-    backgroundSize: "100% 5px",
-    animation: `${scanlines} 1s linear infinite`,
+      "linear-gradient(0deg, rgba(0,255,255,0.08) 1px, transparent 1px)",
+    backgroundSize: "100% 6px",
+    animation: `${scanlines} 2s linear infinite`,
     pointerEvents: "none",
     zIndex: 100,
-    opacity: 0.3,
+    opacity: 0.2,
+    mixBlendMode: "screen",
   },
   [theme.breakpoints.down("sm")]: {
     maxWidth: "350px",
     maxHeight: "350px",
-    perspective: "800px",
+    perspective: "1000px",
   },
 }));
 
@@ -110,7 +141,8 @@ const MatrixSphereWrapper = styled(Box)({
   width: "100%",
   height: "100%",
   transformStyle: "preserve-3d",
-  animation: `${rotate3D} 45s infinite alternate ease-in-out`,
+  animation: `${rotate3D} 60s infinite linear`,
+  transition: "animation-play-state 0.3s ease",
   "&:hover": {
     animationPlayState: "paused",
   },
@@ -125,22 +157,34 @@ const HologramLayer = styled(Box, {
     width: "100%",
     height: "100%",
     borderRadius: "50%",
-    border: `1px solid hsla(${hue}, 100%, 50%, ${0.2 + depth * 0.05})`,
-    transform: `translateZ(${depth * 40 - 200}px)`,
-    boxShadow: `inset 0 0 ${depth * 15}px hsla(${hue}, 100%, 50%, 0.3),
-             0 0 ${depth * 10}px hsla(${hue}, 100%, 50%, 0.4)`,
+    border: `1px solid hsla(${hue}, 100%, 50%, ${0.15 + depth * 0.02})`,
+    transform: `translateZ(${depth * 30 - 150}px)`,
+    boxShadow: `
+      inset 0 0 ${depth * 20}px hsla(${hue}, 100%, 50%, ${0.1 + depth * 0.01}),
+      0 0 ${depth * 15}px hsla(${hue}, 100%, 50%, ${0.2 + depth * 0.02})
+    `,
     filter: active
-      ? `blur(1px) drop-shadow(0 0 5px hsl(${hue}, 100%, 50%))`
-      : "blur(0.5px)",
-    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-    opacity: active ? 1 : 0.7 - depth * 0.03,
-    background: `radial-gradient(circle at center, 
-    hsla(${hue}, 100%, 50%, ${0.02 + depth * 0.01}) 0%, 
-    transparent ${50 + depth * 3}%)`,
+      ? `blur(0.5px) brightness(1.2)`
+      : "blur(0.25px)",
+    transition: `
+      opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      filter 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1)
+    `,
+    opacity: active ? 0.9 : 0.4 - depth * 0.02,
+    background: `
+      radial-gradient(
+        circle at center,
+        hsla(${hue}, 100%, 50%, ${0.03 + depth * 0.005}) 0%,
+        transparent ${60 + depth * 2}%
+      )
+    `,
     [theme.breakpoints.down("sm")]: {
-      transform: `translateZ(${depth * 20 - 100}px)`,
-      boxShadow: `inset 0 0 ${depth * 8}px hsla(${hue}, 100%, 50%, 0.3),
-               0 0 ${depth * 5}px hsla(${hue}, 100%, 50%, 0.4)`,
+      transform: `translateZ(${depth * 20 - 80}px)`,
+      boxShadow: `
+        inset 0 0 ${depth * 10}px hsla(${hue}, 100%, 50%, 0.1),
+        0 0 ${depth * 8}px hsla(${hue}, 100%, 50%, 0.15)
+      `,
     },
   })
 );
@@ -153,42 +197,57 @@ const DataNode = styled(Box, {
     prop !== "size" &&
     prop !== "hue",
 })<{ x: number; y: number; z: number; size: number; hue: number }>(
-  ({ x, y, z, size, hue, theme }) => ({
-    position: "absolute",
-    width: `${size}px`,
-    height: `${size}px`,
-    borderRadius: "50%",
-    backgroundColor: `hsla(${hue}, 100%, 70%, 0.9)`,
-    transform: `translate3d(${x}px, ${y}px, ${z}px)`,
-    boxShadow: `0 0 ${size * 2}px hsla(${hue}, 100%, 50%, 0.9),
-             0 0 ${size * 4}px hsla(${hue}, 100%, 50%, 0.5)`,
-    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-    cursor: "pointer",
-    animation: `${neonPulse} ${2 + Math.random() * 3}s infinite`,
-    "&:hover": {
-      transform: `translate3d(${x}px, ${y}px, ${z}px) scale(${
-        theme.breakpoints.down("sm") ? 1.8 : 2.5
-      })`,
-      boxShadow: `0 0 ${size * 6}px hsla(${hue}, 100%, 50%, 1)`,
-      zIndex: 100,
-      filter: `drop-shadow(0 0 5px hsl(${hue}, 100%, 50%))`,
-    },
-    "&::before": {
-      content: '""',
+  ({ x, y, z, size, hue, theme }) => {
+    const baseColor = `hsla(${hue}, 100%, 70%, 0.95)`;
+    
+    return {
       position: "absolute",
-      top: "-2px",
-      left: "-2px",
-      right: "-2px",
-      bottom: "-2px",
+      width: `${size}px`,
+      height: `${size}px`,
       borderRadius: "50%",
-      border: `1px solid hsl(${hue}, 100%, 80%)`,
-      animation: `${neonPulse} ${3 + Math.random() * 4}s infinite reverse`,
-    },
-    [theme.breakpoints.down("sm")]: {
-      width: `${size * 0.7}px`,
-      height: `${size * 0.7}px`,
-    },
-  })
+      backgroundColor: baseColor,
+      transform: `translate3d(${x}px, ${y}px, ${z}px)`,
+      boxShadow: `
+        0 0 ${size * 3}px hsla(${hue}, 100%, 50%, 0.8),
+        0 0 ${size * 6}px hsla(${hue}, 100%, 50%, 0.4)
+      `,
+      transition: `
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        filter 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+      `,
+      cursor: "pointer",
+      animation: `${neonPulse} ${3 + Math.random() * 2}s infinite ease-in-out`,
+      willChange: "transform, box-shadow, filter",
+      "&:hover": {
+        transform: `translate3d(${x}px, ${y}px, ${z}px) scale(${
+          theme.breakpoints.down("sm") ? 2 : 2.8
+        })`,
+        boxShadow: `
+          0 0 ${size * 8}px hsla(${hue}, 100%, 60%, 1),
+          0 0 ${size * 16}px hsla(${hue}, 100%, 50%, 0.6)
+        `,
+        zIndex: 100,
+        filter: "brightness(1.5)",
+      },
+      "&::before": {
+        content: '""',
+        position: "absolute",
+        top: "-3px",
+        left: "-3px",
+        right: "-3px",
+        bottom: "-3px",
+        borderRadius: "50%",
+        border: `1px solid hsla(${hue}, 100%, 85%, 0.6)`,
+        animation: `${neonPulse} ${4 + Math.random() * 3}s infinite ease-in-out reverse`,
+        pointerEvents: "none",
+      },
+      [theme.breakpoints.down("sm")]: {
+        width: `${Math.max(size * 0.6, 2)}px`,
+        height: `${Math.max(size * 0.6, 2)}px`,
+      },
+    };
+  }
 );
 
 const DataConnection = styled(Box, {
@@ -215,79 +274,90 @@ const DataConnection = styled(Box, {
     top: "50%",
     left: "50%",
     width: `${length}px`,
-    height: "1px",
-    backgroundColor: `hsla(${hue}, 100%, 50%, ${active ? 0.8 : 0.3})`,
+    height: "1.5px",
+    background: `
+      linear-gradient(
+        90deg,
+        transparent,
+        hsla(${hue}, 100%, 60%, ${active ? 0.9 : 0.4}),
+        transparent
+      )
+    `,
     transformOrigin: "0 0",
     transform: `translate(${x1}px, ${y1}px) rotate(${angle}deg)`,
-    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-    "&::before": {
-      content: '""',
-      position: "absolute",
-      width: "100%",
-      height: "100%",
-      background: `linear-gradient(90deg, 
-      hsla(${hue}, 100%, 50%, 0), 
-      hsla(${hue}, 100%, 80%, ${active ? 0.9 : 0.6}), 
-      hsla(${hue}, 100%, 50%, 0))`,
-    },
+    transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+    opacity: active ? 1 : 0.6,
     "&::after": {
       content: '""',
       position: "absolute",
-      width: "6px",
-      height: "6px",
+      width: "8px",
+      height: "8px",
       borderRadius: "50%",
-      backgroundColor: `hsl(${hue}, 100%, 80%)`,
-      top: "-2.5px",
+      backgroundColor: `hsla(${hue}, 100%, 70%, 0.9)`,
+      top: "50%",
       left: "0",
-      boxShadow: `0 0 5px hsl(${hue}, 100%, 50%)`,
-      animation: `${neonPulse} 2s infinite`,
+      transform: "translate(-50%, -50%)",
+      boxShadow: `0 0 8px hsla(${hue}, 100%, 50%, 0.8)`,
+      animation: `${neonPulse} 3s infinite ease-in-out`,
+      transition: "all 0.3s ease",
     },
     [theme.breakpoints.down("sm")]: {
+      height: "1px",
       "&::after": {
-        width: "4px",
-        height: "4px",
-        top: "-1.5px",
+        width: "5px",
+        height: "5px",
       },
     },
   };
 });
 
 const CyberCore = styled(Box)(({ theme }) => ({
-  // position: "absolute",
-  // top: "50%",
-  // left: "50%",
-  // transform: "translate(-50%, -50%) translateZ(200px)",
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
   textAlign: "center",
-  backgroundColor: "rgba(0,0,0,0.4)",
-  animation: `${neonPulse} 4s infinite ease-in-out`,
+  background: `
+    linear-gradient(
+      135deg,
+      rgba(0, 20, 40, 0.7) 0%,
+      rgba(20, 0, 40, 0.7) 100%
+    )
+  `,
+  backdropFilter: "blur(10px)",
+  border: `1px solid ${COLORS.cyan}`,
+  boxShadow: `
+    inset 0 0 20px rgba(0, 255, 255, 0.2),
+    0 0 30px rgba(0, 255, 255, 0.3),
+    0 0 0 1px rgba(255, 0, 255, 0.2)
+  `,
+  animation: `${neonPulse} 8s infinite ease-in-out`,
   width: "100%",
   maxWidth: "500px",
-  padding: "2rem",
-  borderRadius:"8px",
+  padding: "2.5rem",
+  borderRadius: "12px",
+  position: "relative",
+  overflow: "hidden",
   "&::before": {
     content: '""',
     position: "absolute",
-    top: "-10px",
-    left: "-10px",
-    right: "-10px",
-    bottom: "-10px",
-    border: "1px solid rgba(255,0,255,0.3)",
-    borderRadius: "50%",
-    animation: `${neonPulse} 6s infinite ease-in-out reverse`,
+    top: "0",
+    left: "-100%",
+    width: "200%",
+    height: "100%",
+    background: `
+      linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+      )
+    `,
+    animation: `${shimmer} 3s infinite linear`,
   },
   [theme.breakpoints.down("sm")]: {
-    transform: "translate(-50%, -50%) translateZ(100px)",
-    maxWidth: "350px",
-    "&::before": {
-      top: "-5px",
-      left: "-5px",
-      right: "-5px",
-      bottom: "-5px",
-    },
+    maxWidth: "320px",
+    padding: "1.5rem",
   },
 }));
 
@@ -300,56 +370,79 @@ const CyberpunkSphere = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  // Generate sphere parameters - reduce complexity on mobile
-  const layers = isMobile ? 10 : 15;
-  const nodes = isMobile ? 60 : 120;
-  const connections = isMobile ? 40 : 80;
+  // Optimized sphere parameters
+  const layers = isMobile ? 8 : 12;
+  const nodes = isMobile ? 50 : 80;
+  const connections = isMobile ? 30 : 50;
 
-  // Animate time for organic movement
+  // Smoother time animation using requestAnimationFrame
   useEffect(() => {
-    const interval = setInterval(() => {
-      setTime((prev) => prev + 0.01);
-    }, 16);
-    return () => clearInterval(interval);
+    let animationFrameId: number;
+    let lastTime = 0;
+    
+    const animate = (currentTime: number) => {
+      if (lastTime === 0) lastTime = currentTime;
+      const deltaTime = (currentTime - lastTime) / 1000;
+      setTime(prev => prev + deltaTime * 0.5); // Slower, smoother animation
+      lastTime = currentTime;
+      animationFrameId = requestAnimationFrame(animate);
+    };
+    
+    animationFrameId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationFrameId);
   }, []);
 
-  // Generate layer colors with both blue and pink hues
+  // Generate smooth layer colors with gradient from cyan to magenta
   const layerColors = Array.from({ length: layers }).map((_, i) => {
-    // Every 3rd layer gets a pink hue (300°)
-    return i % 3 === 0 ? (300 + time * 5) % 360 : (180 + time * 10) % 360;
+    const baseHue = i < layers / 2 ? 180 : 300; // Cyan for first half, magenta for second
+    return getSmoothHue(baseHue, i, layers, time);
   });
 
-  // Generate nodes with balanced color distribution
+  // Generate optimized node positions with smoother movement
   const nodePositions = Array.from({ length: nodes }).map((_, i) => {
-    const angle1 =
-      (i * (360 / nodes) * Math.PI) / 180 +
-      Math.sin(time * 0.5 + i * 0.1) * 0.3;
-    const angle2 = Math.acos(Math.random() * 2 - 1);
+    // Smooth spherical distribution
+    const phi = Math.acos(-1 + (2 * i) / nodes);
+    const theta = Math.sqrt(nodes * Math.PI) * phi;
+    
     const radius = isMobile
-      ? 125 + Math.sin(time * 0.3 + i * 0.05) * 25
-      : 250 + Math.sin(time * 0.3 + i * 0.05) * 50;
+      ? 120 + Math.sin(time * 0.4 + phi * 2) * 20
+      : 220 + Math.sin(time * 0.4 + phi * 2) * 40;
 
-    // About 20% of nodes will be pink/magenta
-    const isPinkNode = i % 5 === 0;
-    const baseHue = isPinkNode ? 300 : 180; // Pink or blue base
-    const hueVariation = (i * 30) / nodes;
+    // Smooth position calculation
+    const x = radius * Math.sin(phi) * Math.cos(theta);
+    const y = radius * Math.sin(phi) * Math.sin(theta);
+    const z = radius * Math.cos(phi);
+
+    // Determine node color based on position
+    const isPinkNode = z > 0; // Pink for top hemisphere, cyan for bottom
+    const baseHue = isPinkNode ? 300 : 180;
+    const hue = getSmoothHue(baseHue, i, nodes, time);
 
     return {
-      x: Math.sin(angle2) * Math.cos(angle1) * radius,
-      y: Math.sin(angle2) * Math.sin(angle1) * radius,
-      z: Math.cos(angle2) * radius,
+      x,
+      y,
+      z,
       size: isMobile
-        ? 3 + Math.sin(time * 0.2 + i) * 2
-        : 4 + Math.sin(time * 0.2 + i) * 3,
-      hue: (baseHue + hueVariation + time * 20) % 360,
+        ? 4 + Math.sin(time * 0.3 + i * 0.2) * 2
+        : 6 + Math.sin(time * 0.3 + i * 0.2) * 3,
+      hue,
     };
   });
 
-  // Generate connections between nodes
+  // Generate optimized connections (only between nearby nodes)
   const connectionPaths = Array.from({ length: connections }).map((_, i) => {
     const node1 = i % nodes;
-    const node2 = (i * 7) % nodes;
+    // Connect to nearby nodes for cleaner look
+    const node2 = (node1 + Math.floor(Math.sqrt(nodes))) % nodes;
+    
     const active = activeNode === node1 || activeNode === node2;
+    const distance = Math.sqrt(
+      Math.pow(nodePositions[node2].x - nodePositions[node1].x, 2) +
+      Math.pow(nodePositions[node2].y - nodePositions[node1].y, 2)
+    );
+
+    // Only show connections if nodes are close enough
+    if (distance > (isMobile ? 200 : 350)) return null;
 
     return {
       x1: nodePositions[node1].x,
@@ -359,7 +452,7 @@ const CyberpunkSphere = () => {
       hue: (nodePositions[node1].hue + nodePositions[node2].hue) / 2,
       active,
     };
-  });
+  }).filter(Boolean);
 
   return (
     <Box
@@ -370,15 +463,42 @@ const CyberpunkSphere = () => {
         height: "100vh",
         width: "100vw",
         overflow: "hidden",
-        //position: "relative",
-        background:
-          "radial-gradient(circle at center, #0a0a20 0%, #000000 100%)",
+        background: `
+          radial-gradient(
+            circle at center,
+            rgba(10, 10, 40, 1) 0%,
+            rgba(0, 0, 10, 1) 70%,
+            rgba(0, 0, 0, 1) 100%
+          )
+        `,
+        position: "relative",
+        "&::before": {
+          content: '""',
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: `
+            radial-gradient(
+              circle at 30% 30%,
+              rgba(0, 255, 255, 0.1) 0%,
+              transparent 50%
+            ),
+            radial-gradient(
+              circle at 70% 70%,
+              rgba(255, 0, 255, 0.1) 0%,
+              transparent 50%
+            )
+          `,
+          pointerEvents: "none",
+        },
       }}
       onClick={() => router.push("/dashboard")}
     >
       <CyberpunkContainer ref={sphereRef}>
         <MatrixSphereWrapper>
-          {/* Generate holographic layers */}
+          {/* Holographic layers */}
           {Array.from({ length: layers }).map((_, i) => (
             <HologramLayer
               key={i}
@@ -390,8 +510,8 @@ const CyberpunkSphere = () => {
             />
           ))}
 
-          {/* Generate data connections */}
-          {connectionPaths.map((conn, i) => (
+          {/* Data connections */}
+          {connectionPaths.map((conn, i) => conn && (
             <DataConnection
               key={i}
               x1={conn.x1}
@@ -403,7 +523,7 @@ const CyberpunkSphere = () => {
             />
           ))}
 
-          {/* Generate data nodes */}
+          {/* Data nodes */}
           {nodePositions.map((node, i) => (
             <DataNode
               key={i}
@@ -416,12 +536,14 @@ const CyberpunkSphere = () => {
                 e.stopPropagation();
                 setActiveNode(activeNode === i ? null : i);
               }}
+              onMouseEnter={() => setActiveNode(i)}
+              onMouseLeave={() => setActiveNode(null)}
             />
           ))}
         </MatrixSphereWrapper>
       </CyberpunkContainer>
 
-      {/* Cyberpunk central core */}
+      {/* Central core */}
       <Box
         sx={{
           position: "absolute",
@@ -432,112 +554,135 @@ const CyberpunkSphere = () => {
           left: "50%",
           transform: "translate(-50%, -50%)",
           pointerEvents: "none",
-          p: isMobile ? 2 : 6,
+          p: isMobile ? 2 : 4,
           display: "grid",
           placeItems: "center",
         }}
       >
-        <CyberCore>
+        <CyberCore sx={{ pointerEvents: "auto" }}>
           <Typography
             variant={isMobile ? "h6" : "h4"}
             sx={{
-              color: "#00ffff",
-              fontWeight: "bold",
-              textShadow: "0 0 10px #00ffff, 0 0 5px #ff00ff",
+              background: `linear-gradient(135deg, ${COLORS.cyan}, ${COLORS.magenta})`,
+              backgroundClip: "text",
+              WebkitBackgroundClip: "text",
+              color: "transparent",
+              fontWeight: "900",
               mb: isMobile ? 1 : 2,
-              animation: `${glitch} 3s infinite`,
-              fontFamily: "'Courier New', monospace",
-              letterSpacing: "2px",
-              fontSize: isMobile ? "1rem" : "inherit",
+              animation: `${glitch} 4s infinite`,
+              fontFamily: "'Orbitron', 'Courier New', monospace",
+              letterSpacing: "3px",
+              fontSize: isMobile ? "1.1rem" : "inherit",
+              textShadow: "0 0 15px rgba(0, 255, 255, 0.5)",
             }}
           >
-            FRONTEND DEVELOPER
+            CYBERPUNK SPHERE
           </Typography>
+          
           <Typography
             variant={isMobile ? "body2" : "h6"}
             sx={{
-              color: "#00ffff",
-              mb: isMobile ? 0.5 : 1,
-              textShadow: "0 0 5px #00ffff",
+              color: COLORS.cyan,
+              mb: isMobile ? 0.75 : 1.5,
               fontFamily: "'Courier New', monospace",
-              fontSize: isMobile ? "0.8rem" : "inherit",
+              fontWeight: "600",
+              fontSize: isMobile ? "0.85rem" : "inherit",
+              opacity: 0.9,
             }}
           >
-            SYSTEM EXP: 4 YEARS
+            SYSTEM EXPERIENCE: 4 YEARS
           </Typography>
 
           <Typography
             variant={isMobile ? "body2" : "body1"}
             sx={{
-              color: "#00ffff",
-              maxWidth: "80%",
-              mb: isMobile ? 1 : 2,
-              textShadow: "0 0 5px #00ffff",
+              color: COLORS.neonBlue,
+              maxWidth: "90%",
+              mb: isMobile ? 1.25 : 2,
               fontFamily: "'Courier New', monospace",
-              fontSize: isMobile ? "0.8rem" : "inherit",
+              fontSize: isMobile ? "0.85rem" : "inherit",
+              lineHeight: 1.6,
             }}
           >
-            SPECIALIZATION: REACT/NEXT JS
+            SPECIALIZATION: REACT - NEXT.JS 
           </Typography>
-          <Typography
-            variant="caption"
-            sx={{
-              color: "#ff00ff",
-              fontFamily: "'Courier New', monospace",
-              textShadow: "0 0 3px #ff00ff",
-              display: "block",
-              mb: isMobile ? 0.5 : 1,
-              fontSize: isMobile ? "0.7rem" : "inherit",
-            }}
-          >
-            CURRENT STATUS: ONLINE
-          </Typography>
-          <Typography
-            variant="caption"
-            sx={{
-              color: "#00ffff",
-              fontFamily: "'Courier New', monospace",
-              textShadow: "0 0 3px #00ffff",
-              display: "block",
-              fontSize: isMobile ? "0.7rem" : "inherit",
-            }}
-          >
-            ACCESS LEVEL: USER
-          </Typography>
+          
+          <Box sx={{ mb: isMobile ? 1.5 : 2 }}>
+            <Typography
+              variant="caption"
+              sx={{
+                color: COLORS.magenta,
+                fontFamily: "'Courier New', monospace",
+                fontWeight: "600",
+                display: "block",
+                mb: 0.5,
+                fontSize: isMobile ? "0.75rem" : "0.9rem",
+              }}
+            >
+              STATUS: ONLINE
+            </Typography>
+            <Typography
+              variant="caption"
+              sx={{
+                color: COLORS.cyan,
+                fontFamily: "'Courier New', monospace",
+                fontWeight: "600",
+                display: "block",
+                fontSize: isMobile ? "0.75rem" : "0.9rem",
+              }}
+            >
+              ACCESS: DEVELOPER
+            </Typography>
+          </Box>
+
           <Typography
             variant={isMobile ? "body1" : "h5"}
             sx={{
-              color: "#00ffff",
-              fontWeight: "bold",
-              textShadow: "0 0 10px #00ffff, 0 0 5px #ff00ff",
-              mt: isMobile ? 1 : 3,
-              fontFamily: "'Courier New', monospace",
-              letterSpacing: "1px",
-              fontSize: isMobile ? "0.9rem" : "inherit",
+              color: COLORS.cyan,
+              fontWeight: "700",
+              mt: isMobile ? 1 : 2.5,
+              fontFamily: "'Orbitron', 'Courier New', monospace",
+              letterSpacing: "2px",
+              fontSize: isMobile ? "0.95rem" : "inherit",
+              opacity: 0.95,
             }}
           >
-            INITIALIZING SYSTEM...
+            INITIALIZING...
           </Typography>
+          
           <Box
             sx={{
-              width: "80%",
-              height: "4px",
-              background: "linear-gradient(90deg, #00ffff, #ff00ff)",
-              mt: isMobile ? 1 : 2,
-              borderRadius: "2px",
-              boxShadow: "0 0 10px #00ffff, 0 0 5px #ff00ff",
+              width: "85%",
+              height: "6px",
+              background: `
+                linear-gradient(
+                  90deg,
+                  ${COLORS.cyan},
+                  ${COLORS.magenta},
+                  ${COLORS.cyan}
+                )
+              `,
+              mt: isMobile ? 1.5 : 3,
+              borderRadius: "3px",
+              boxShadow: "0 0 15px rgba(0, 255, 255, 0.5)",
               position: "relative",
               overflow: "hidden",
               "&::after": {
                 content: '""',
                 position: "absolute",
                 top: 0,
-                left: 0,
+                left: "-100%",
                 right: 0,
                 bottom: 0,
-                background:
-                  "linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent)",
-                animation: `${neonPulse} 2s infinite linear`,
+                background: `
+                  linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.6),
+                    transparent
+                  )
+                `,
+                animation: `${shimmer} 1.5s infinite linear`,
               },
             }}
           />

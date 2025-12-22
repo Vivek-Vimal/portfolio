@@ -1,7 +1,6 @@
 "use client";
 import {
   Box,
-  Container,
   Typography,
   TextField,
   Button,
@@ -199,6 +198,9 @@ const CyberContactPage = () => {
         minHeight: "100vh",
         pt: "4rem",
         pb: "4rem",
+        display:"flex",
+        alignItems:"center",
+        justifyContent:"center",
       }}
       ref={containerRef}
     >
@@ -244,8 +246,7 @@ const CyberContactPage = () => {
         }}
       />
 
-      <Container
-        maxWidth="lg"
+      <Box
         sx={{
           position: "relative",
           zIndex: 2,
@@ -256,6 +257,9 @@ const CyberContactPage = () => {
           p: { xs: 2, md: 4 },
           background: "rgba(15, 12, 41, 0.85)",
           mt: "3rem",
+          mx: 1,
+          width: isMobile ? "100%" : "80vw",
+          maxWidth: "1300px"
         }}
         component={motion.div}
         initial="hidden"
@@ -701,7 +705,7 @@ const CyberContactPage = () => {
             </motion.div>
           </Grid>
         </Grid>
-      </Container>
+      </Box>
 
       {/* Success Snackbar */}
       <Snackbar

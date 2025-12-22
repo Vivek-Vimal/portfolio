@@ -1,9 +1,10 @@
 import {
   Box,
   Button,
-  Container,
   Typography,
   Divider,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import { NextPage } from "next";
@@ -97,6 +98,9 @@ const Home: NextPage = () => {
   const containerRef = useRef(null);
   const controls = useAnimation();
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   useEffect(() => {
     controls.start("visible");
   }, [controls]);
@@ -119,8 +123,7 @@ const Home: NextPage = () => {
     >
       <DynamicCanvas />
 
-      <Container
-        maxWidth="lg"
+      <Box
         sx={{
           position: "relative",
           zIndex: 2,
@@ -129,9 +132,12 @@ const Home: NextPage = () => {
           border: "1px solid rgba(0, 240, 255, 0.2)",
           boxShadow: "0 0 30px rgba(0, 240, 255, 0.1)",
           my: 4,
+          mx:1,
           px: { xs: 2, md: 4 },
           py: { xs: 3 },
           background: "rgba(15, 12, 41, 0.7)",
+          width: isMobile ? "100%" : "100%",
+          maxWidth: "1200px"
         }}
       >
         {/* Hero Section */}
@@ -202,53 +208,57 @@ const Home: NextPage = () => {
 
         {/* Content Navigation */}
       <Box
-  sx={{
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    mb: 4,
-    gap: 2,
-    flexWrap: "wrap", // allow wrapping
-  }}
-  component={motion.div}
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{ delay: 0.8 }}
->
-  {["projects", "companies", "about me", "contact", "resume"].map((tab) => (
-    <Button
-      key={tab}
-      variant="text"
-      sx={{
-        flexBasis: {
-          xs: "30%", // ~2 items per row on mobile
-          sm: "auto", // normal size on larger screens
-        },
-        flexGrow: { xs: 1, sm: 0 },
-        color: activeTab === tab ? cyberColors.secondary : "#ffffff",
-        textTransform: "uppercase",
-        letterSpacing: "1px",
-        position: "relative",
-        "&::after": {
-          content: '""',
-          position: "absolute",
-          bottom: -4,
-          left: 0,
-          width: activeTab === tab ? "100%" : "0%",
-          height: "2px",
-          background: cyberColors.secondary,
-          transition: "width 0.3s ease",
-        },
-        "&:hover::after": {
-          width: "100%",
-        },
-      }}
-      onClick={() => setActiveTab(tab)}
-    >
-      {tab}
-    </Button>
-  ))}
-</Box>
+        sx={{
+          // display: "flex",
+          // justifyContent: "center",
+          // alignItems: "center",
+          // flexWrap: "wrap", // allow wrapping
+
+          display:"grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))",
+          justifyContent: "center",
+          mb: 4,
+          gap: 2,
+        }}
+        component={motion.div}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.8 }}
+      >
+        {["projects", "companies", "about me", "contact", "resume"].map((tab) => (
+          <Button
+            key={tab}
+            variant="text"
+            sx={{
+              flexBasis: {
+                xs: "30%", // ~2 items per row on mobile
+                sm: "auto", // normal size on larger screens
+              },
+              flexGrow: { xs: 1, sm: 0 },
+              color: activeTab === tab ? cyberColors.secondary : "#ffffff",
+              textTransform: "uppercase",
+              letterSpacing: "1px",
+              position: "relative",
+              "&::after": {
+                content: '""',
+                position: "absolute",
+                bottom: -4,
+                left: 0,
+                width: activeTab === tab ? "100%" : "0%",
+                height: "2px",
+                background: cyberColors.secondary,
+                transition: "width 0.3s ease",
+              },
+              "&:hover::after": {
+                width: "100%",
+              },
+            }}
+            onClick={() => setActiveTab(tab)}
+          >
+            {tab}
+          </Button>
+        ))}
+      </Box>
 
 
 
@@ -499,7 +509,7 @@ const Home: NextPage = () => {
             SYSTEM STATUS: [ONLINE]
           </Typography>
         </Box>
-      </Container>
+      </Box>
     </Box>
   );
 };
