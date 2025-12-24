@@ -18,10 +18,30 @@ const roboto = Roboto({
   variable: "--font-roboto",
 });
 
+// export const metadata: Metadata = {
+//   title: "Vivek Co.",
+//   description: "Portfolio Frontend Developer",
+// };
+
 export const metadata: Metadata = {
   title: "Vivek Co.",
-  description: "Portfolio Frontend Developer",
+  description: "React & Next.js Developer Portfolio",
+  openGraph: {
+    title: "Vivek Vimal | Portfolio",
+    description: "React, Next.js, TypeScript Developer",
+    url: "https://vivekco.netlify.app",
+    siteName: "Vivek Portfolio",
+    images: [
+      {
+        url: "https://vivekco.netlify.app/og.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
+    type: "website",
+  },
 };
+
 
 interface RootLayoutProps {
   children: ReactNode;
