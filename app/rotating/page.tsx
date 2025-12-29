@@ -604,7 +604,7 @@ const CyberpunkSphere = () => {
               lineHeight: 1.6,
             }}
           >
-            SPECIALIZATION: REACT - NEXT.JS 
+            SPECIALIZATION: REACT-NEXT.JS 
           </Typography>
           
           <Box sx={{ mb: isMobile ? 1.5 : 2 }}>

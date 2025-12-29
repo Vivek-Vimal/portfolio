@@ -6,8 +6,42 @@ import {
   Tooltip,
 } from "@mui/material";
 import { motion } from "framer-motion";
-import { containerVariants, cyberColors, floatingEffect, itemVariants } from "../dashboard/Dashboard";
-import { Code, Terminal, DataArray, DeveloperMode } from "@mui/icons-material";
+import { cyberColors } from "../dashboard/Dashboard";
+import { Code, Terminal, DataArray, DeveloperMode, PlayArrow } from "@mui/icons-material";
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.3,
+    },
+  },
+};
+
+ const floatingEffect = {
+  animate: {
+    y: [0, -15, 0],
+    transition: {
+      duration: 4,
+      repeat: Infinity,
+      ease: "easeInOut",
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: [0.2, 0.8, 0.4, 1],
+    },
+  },
+};
 
   const techIcons = [
     { icon: <Code />, tooltip: "React/Next.js" },
@@ -36,7 +70,7 @@ export default function PdfViewer() {
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
     >
-      <Button
+      {/* <Button
        component="a"
             href="/ReactVivekVimalResume.pdf"
             download
@@ -55,7 +89,39 @@ export default function PdfViewer() {
         }}
       >
         Download
-      </Button>
+      </Button> */}
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
+                      <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <Button
+                          variant="contained"
+                          startIcon={<PlayArrow />}
+                             component="a"
+            href="/ReactVivekVimalResume.pdf"
+            download
+            aria-label="download"
+                          sx={{
+                            background: `linear-gradient(45deg, ${cyberColors.matrixGreen}, ${cyberColors.neonBlue})`,
+                            fontFamily: "'Orbitron', sans-serif",
+                            textTransform: "uppercase",
+                            letterSpacing: "1px",
+                            borderRadius: "8px",
+                            padding: { xs: "8px 20px", md: "10px 24px" },
+                            fontSize: { xs: '0.8rem', md: '0.9rem' },
+                            boxShadow: `0 0 20px ${cyberColors.matrixGreen}`,
+                            '&:hover': {
+                              background: `linear-gradient(45deg, ${cyberColors.neonBlue}, ${cyberColors.matrixGreen})`,
+                              boxShadow: `0 0 30px ${cyberColors.matrixGreen}`,
+                            },
+                            color:"#000"
+                          }}
+                        >
+                          DOWNLOAD DATAPACK
+                        </Button>
+                      </motion.div>
+                    </Box>
     </motion.div>
 
     <Box

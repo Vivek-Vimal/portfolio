@@ -1,5 +1,5 @@
 "use client";
-import Navbar from "@/components/Navbar";
+//import Navbar from "@/components/Navbar";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import SplashScreen from "../home/page";
@@ -35,7 +35,7 @@ const Main = ({ children }: { children: React.ReactNode }) => {
         <SplashScreen />
       ) : (
         <>
-          <Navbar />
+          {/* <Navbar /> */}
           {children}
         </>
       )}

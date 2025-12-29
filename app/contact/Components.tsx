@@ -120,7 +120,7 @@ const CyberContactPage = () => {
     {
       icon: <LinkedIn />,
       label: "LinkedIn",
-      url: "https://www.linkedin.com/in/vivek-vimal-59569637a/",
+      url: "https://www.linkedin.com/in/vivek-vimal/",
       color: "#0A66C2",
     },
     {
@@ -196,7 +196,7 @@ const CyberContactPage = () => {
           "radial-gradient(circle at center, #0f0c29 0%, #1a1a2e 70%, #16213e 100%)",
         color: cyberColors.text,
         minHeight: "100vh",
-        pt: "4rem",
+        // pt: "4rem",
         pb: "4rem",
         display:"flex",
         alignItems:"center",
